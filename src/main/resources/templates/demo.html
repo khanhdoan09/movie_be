@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World</title>
+</head>
+<body>
+
+<h1>api of web stream <movie></movie></h1>
+
+<a href="/about">About</a>
+
+<div style="display: grid">
+    <h3>register</h3>
+    <form method="post" action="/api/auth/register">
+        <input type="input" name="username" value="" autocomplete="off">
+        <input type="password" name="password" value="" autocomplete="off">
+        <button type="submit">Submit</button>
+    </form>
+    <h3>login</h3>
+    <form method="post" action="/api/auth/login">
+        <input type="input" name="username" value="" autocomplete="off">
+        <input type="password" name="password" value="" autocomplete="off">
+        <button type="submit">Submit</button>
+    </form>
+    <h3>comment</h3>
+    <form method="post" action="/api/comment/submit">
+        <input type="input" name="userId" value="3">
+        <input type="input" name="movieId" value="62e7fce9294ccd8d66bf6e41">
+        <input type="input" name="content" value="test comment">
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>
