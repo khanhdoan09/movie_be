@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    public List<Comment> findCommentsByMovieId(String movieId);
+     List<Comment> findCommentsByMovieIdOrderByCreateAtDesc(String movieId);
+     int countByMovieId(String movieId);
 }

@@ -10,7 +10,9 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String commentId;
-    private String userId;
+    @OneToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
     private String commentParentId;
     private String movieId;
     private String content;

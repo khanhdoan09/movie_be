@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello World</title>
+    <title>test api of web stream movie</title>
 </head>
 <body>
 
-<h1>api of web stream <movie></movie></h1>
+<h1>test api of web stream movie<movie></movie></h1>
 
 <a href="/about">About</a>
 
@@ -27,6 +27,13 @@
         <input type="input" name="userId" value="3">
         <input type="input" name="movieId" value="62e7fce9294ccd8d66bf6e41">
         <input type="input" name="content" value="test comment">
+        <button type="submit">Submit</button>
+    </form>
+    <h3>review comment</h3>
+    <form method="post" action="/api/comment/review">
+        <input type="input" name="userId" value="3">
+        <input type="input" name="commentId" value="1">
+        <input type="input" name="review" value="1">
         <button type="submit">Submit</button>
     </form>
 </div>

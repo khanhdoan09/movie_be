@@ -1,6 +1,8 @@
 package com.example.web_stream_movie_be.controller;
 
 import com.example.web_stream_movie_be.model.Comment;
+import com.example.web_stream_movie_be.model.ReviewComment;
+import com.example.web_stream_movie_be.model.User;
 import com.example.web_stream_movie_be.model.response.StringResponse;
 import com.example.web_stream_movie_be.model.temporary.Temporary;
 import com.example.web_stream_movie_be.service.CommentService;
@@ -30,19 +32,30 @@ public class CommentController {
         return ResponseEntity.ok().body(commentService.getListCommentByMovie(movieId));
     }
 
+    @GetMapping("/comment/count")
+    public ResponseEntity<Integer> getCountComment(String movieId) {
+        return ResponseEntity.ok().body(commentService.getCountComment(movieId));
+    }
+
     @PostMapping("/comment/submit")
     public ResponseEntity<StringResponse> submitComment(@ModelAttribute Comment comment) {
+        StringResponse stringResponse = new StringResponse();
         String userId = temporary.getIdUser();
-        comment.setUserId(userId);
+        if (userId == null) {
+            stringResponse.setResponse("not login yet");
+            return ResponseEntity.ok().body(stringResponse);
+        }
+        comment.setUser(new User());
+        comment.getUser().setId(userId);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String currentTime = formatter.format(date);
         comment.setCreateAt(currentTime);
         this.commentService.insertComment(comment);
-        StringResponse stringResponse = new StringResponse();
         stringResponse.setResponse("ok");
         return ResponseEntity.ok().body(stringResponse);
     }
+
 
 
 }

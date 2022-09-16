@@ -48,7 +48,6 @@ public class UserController {
             User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
             String result =  "wrong password";
             if (doesUsernamePasswordCorrect != null) {
-                System.out.println(doesUsernamePasswordCorrect.getId());
                 result =  "ok";
                 temporary.setIdUser(doesUsernamePasswordCorrect.getId());
             }
