@@ -29,6 +29,7 @@ public class CommentController {
 
     @GetMapping("/comment/get")
     public ResponseEntity<List<Comment>> getListCommentByMovie(String movieId) {
+        System.out.println(movieId);
         return ResponseEntity.ok().body(commentService.getListCommentByMovie(movieId));
     }
 
