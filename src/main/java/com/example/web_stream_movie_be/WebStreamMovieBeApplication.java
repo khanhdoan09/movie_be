@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @SpringBootApplication
 public class WebStreamMovieBeApplication {
-
-    @GetMapping("/")
-    String home() {
-        return "Hello World!";
-    }
     public static void main(String[] args) {
         SpringApplication.run(WebStreamMovieBeApplication.class, args);
     }
