@@ -1,7 +1,6 @@
 package com.example.web_stream_movie_be.controller;
 
 import com.example.web_stream_movie_be.model.Comment;
-import com.example.web_stream_movie_be.model.ReviewComment;
 import com.example.web_stream_movie_be.model.User;
 import com.example.web_stream_movie_be.model.response.StringResponse;
 import com.example.web_stream_movie_be.model.temporary.Temporary;
@@ -10,15 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/comment")
 public class CommentController {
 
     @Autowired
@@ -27,23 +24,22 @@ public class CommentController {
     @Autowired
     private Temporary temporary;
 
-    @GetMapping("/comment/get")
+    @GetMapping("/get")
     public ResponseEntity<List<Comment>> getListCommentByMovie(String movieId) {
-        System.out.println(movieId);
         return ResponseEntity.ok().body(commentService.getListCommentByMovie(movieId));
     }
 
-    @GetMapping("/comment/count")
+    @GetMapping("/count")
     public ResponseEntity<Integer> getCountComment(String movieId) {
         return ResponseEntity.ok().body(commentService.getCountComment(movieId));
     }
 
-    @PostMapping("/comment/submit")
+    @PostMapping("/submit")
     public ResponseEntity<StringResponse> submitComment(@ModelAttribute Comment comment) {
         StringResponse stringResponse = new StringResponse();
         String userId = temporary.getIdUser();
         if (userId == null) {
-            stringResponse.setResponse("not login yet");
+            stringResponse.setMessage("not login yet");
             return ResponseEntity.ok().body(stringResponse);
         }
         comment.setUser(new User());
@@ -53,7 +49,7 @@ public class CommentController {
         String currentTime = formatter.format(date);
         comment.setCreateAt(currentTime);
         this.commentService.insertComment(comment);
-        stringResponse.setResponse("ok");
+        stringResponse.setMessage("ok");
         return ResponseEntity.ok().body(stringResponse);
     }
 

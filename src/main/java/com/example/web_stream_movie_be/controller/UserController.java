@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/auth")
 public class UserController {
 
     @Autowired
@@ -23,26 +23,26 @@ public class UserController {
     public String get() {return "test";
     }
 
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<StringResponse> registerUser(@ModelAttribute User user) {
         StringResponse stringResponse = new StringResponse();
         boolean isExist = userService.isUsernameExist(user.getUsername());
         if (isExist) {
-            stringResponse.setResponse("error: username is exist");
+            stringResponse.setMessage("error: username is exist");
         }
         else {
             userService.insertUser(user);
-            stringResponse.setResponse("ok");
+            stringResponse.setMessage("ok");
         }
         return ResponseEntity.ok().body(stringResponse);
     }
 
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<StringResponse> loginUser(@ModelAttribute User user) {
         StringResponse stringResponse = new StringResponse();
         boolean isUsernameExist = userService.isUsernameExist(user.getUsername());
         if (!isUsernameExist) {
-            stringResponse.setResponse("error: username is not exist");
+            stringResponse.setMessage("error: username is not exist");
         }
         else {
             User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
@@ -54,7 +54,7 @@ public class UserController {
             else {
                 result =  "wrong password";
             }
-            stringResponse.setResponse(result);
+            stringResponse.setMessage(result);
 
         }
         return ResponseEntity.ok().body(stringResponse);
