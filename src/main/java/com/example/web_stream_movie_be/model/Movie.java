@@ -3,10 +3,8 @@ package com.example.web_stream_movie_be.model;
 import com.google.gson.Gson;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -17,5 +15,12 @@ public class Movie {
     private String name;
     private String originName;
     private String slug;
-    private String _id;
+    @OneToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+    private int year;
+
+    @ManyToMany
+    @JoinTable(name ="movie_detail_category", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Collection<Category> categories;
 }
