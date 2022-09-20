@@ -15,7 +15,7 @@ public class ReviewCommentService {
     public int countReviewComment(String commentId, int review) {
         return this.reviewCommentRepository.countReviewComment(commentId, review);
     }
-    public int doesCustomerReviewed(String commentId, String userId, String review) {
+    public int doesCustomerReviewed(String commentId, long userId, String review) {
         return this.reviewCommentRepository.existsByCommentIdAndUserIdAndReview(commentId, userId, review);
     }
 }

@@ -11,6 +11,6 @@ public class ReviewComment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String reviewCommentId;
     private String commentId;
-    private String userId;
+    private long userId;
     private int review;
 }
