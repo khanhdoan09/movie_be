@@ -16,9 +16,11 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Collection<MovieDetail> movieDetails;
+    private Collection<Movie> movies;
 
-
+    public String getCategoryId() {
+        return this.categoryId;
+    }
     public String getName() {
         return this.name;
     }

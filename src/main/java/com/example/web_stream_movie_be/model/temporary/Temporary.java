@@ -12,4 +12,5 @@ import javax.persistence.Id;
 @Data
 public class Temporary {
     private String idUser;
+    public static String sql = "";
 }
