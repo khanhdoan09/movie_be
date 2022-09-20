@@ -27,10 +27,6 @@ public class MovieDetail {
     private String content;
     @Nullable
     private int chieurap;
-    private int year;
-    @OneToOne
-    @JoinColumn(name = "country_id")
-    private Country country;
 
     @OneToOne
     @JoinColumn(name = "movie_id")
@@ -43,9 +39,9 @@ public class MovieDetail {
     @JoinTable(name = "movie_detail_actor", joinColumns = @JoinColumn(name = "movie_detail_id"), inverseJoinColumns = @JoinColumn(name = "actor_id"))
     private Collection<Actor> actors;
 
-    @ManyToMany
-    @JoinTable(name ="movie_detail_category", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Collection<Category> categories;
+//    @ManyToMany
+//    @JoinTable(name ="movie_detail_category", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+//    private Collection<Category> categories;
 
     @ManyToMany
     @JoinTable(name ="movie_detail_director", joinColumns =  @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "director_id"))
