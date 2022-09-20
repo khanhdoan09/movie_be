@@ -11,6 +11,6 @@ import javax.persistence.Id;
 @Component
 @Data
 public class Temporary {
-    private String idUser;
-    public static String sql = "";
+    private long idUser;
+
 }

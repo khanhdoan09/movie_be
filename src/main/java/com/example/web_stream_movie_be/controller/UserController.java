@@ -55,7 +55,6 @@ public class UserController {
                 result =  "wrong password";
             }
             stringResponse.setMessage(result);
-
         }
         return ResponseEntity.ok().body(stringResponse);
     }

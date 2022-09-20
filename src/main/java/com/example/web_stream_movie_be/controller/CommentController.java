@@ -37,8 +37,8 @@ public class CommentController {
     @PostMapping("/submit")
     public ResponseEntity<StringResponse> submitComment(@ModelAttribute Comment comment) {
         StringResponse stringResponse = new StringResponse();
-        String userId = temporary.getIdUser();
-        if (userId == null) {
+        long userId = temporary.getIdUser();
+        if (userId == 0) {
             stringResponse.setMessage("not login yet");
             return ResponseEntity.ok().body(stringResponse);
         }

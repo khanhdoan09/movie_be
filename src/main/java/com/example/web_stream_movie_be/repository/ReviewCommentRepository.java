@@ -10,5 +10,5 @@ public interface ReviewCommentRepository extends JpaRepository<ReviewComment, St
     @Query(value = "select count(comment_id) from review_comment where comment_id= :commentId and review= :review", nativeQuery = true)
     int countReviewComment(String commentId, int review);
     @Query(value = "select count(comment_id) from review_comment where comment_id= :commentId and user_id= :userId and review= :review", nativeQuery = true)
-    int existsByCommentIdAndUserIdAndReview(String commentId, String userId, String review);
+    int existsByCommentIdAndUserIdAndReview(String commentId, long userId, String review);
 }

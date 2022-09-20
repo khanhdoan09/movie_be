@@ -3,13 +3,14 @@ package com.example.web_stream_movie_be.service;
 import com.example.web_stream_movie_be.model.User;
 import com.example.web_stream_movie_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
+import com.example.web_stream_movie_be.security.jwt.CustomUserDetails;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -26,4 +27,14 @@ public class UserService {
         return this.userRepository.findByUsernameAndPassword(username, password);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = this.userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        else {
+            return new CustomUserDetails(user);
+        }
+    }
 }
