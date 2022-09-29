@@ -1,8 +1,9 @@
-package com.example.web_stream_movie_be.security.jwt;
+package com.example.web_stream_movie_be.model.security;
 
 import com.example.web_stream_movie_be.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +13,14 @@ import java.util.Collections;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CustomUserDetails implements UserDetails {
-    User user;
+    private User user;
+
+    public Long getId() {
+        return user.getId();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));

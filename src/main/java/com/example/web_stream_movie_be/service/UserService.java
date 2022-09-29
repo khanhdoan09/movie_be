@@ -1,13 +1,13 @@
 package com.example.web_stream_movie_be.service;
 
 import com.example.web_stream_movie_be.model.User;
+import com.example.web_stream_movie_be.model.security.CustomUserDetails;
 import com.example.web_stream_movie_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.example.web_stream_movie_be.security.jwt.CustomUserDetails;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,9 +23,9 @@ public class UserService implements UserDetailsService {
         return this.userRepository.existsByUsername(username);
     }
 
-    public User doesUsernamePasswordCorrect(String username, String password) {
-        return this.userRepository.findByUsernameAndPassword(username, password);
-    }
+//    public User doesUsernamePasswordCorrect(String username, String password) {
+//        return this.userRepository.findByUsernameAndPassword(username, password);
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,7 +34,15 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
         else {
-            return new CustomUserDetails(user);
+            UserDetails userDetails = org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                    .password(user.getPassword())
+                    .authorities("ROLE_USER").build();
+            CustomUserDetails customUserDetails = new CustomUserDetails(user);
+            return customUserDetails;
         }
+    }
+
+    public User loadUserById(Long userId) {
+        return this.userRepository.findUserById(userId);
     }
 }

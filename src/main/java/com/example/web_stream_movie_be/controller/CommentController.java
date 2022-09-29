@@ -3,10 +3,13 @@ package com.example.web_stream_movie_be.controller;
 import com.example.web_stream_movie_be.model.Comment;
 import com.example.web_stream_movie_be.model.User;
 import com.example.web_stream_movie_be.model.response.StringResponse;
+import com.example.web_stream_movie_be.model.security.CustomUserDetails;
 import com.example.web_stream_movie_be.model.temporary.Temporary;
 import com.example.web_stream_movie_be.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -34,16 +37,13 @@ public class CommentController {
         return ResponseEntity.ok().body(commentService.getCountComment(movieId));
     }
 
-    @PostMapping("/submit")
+    @RequestMapping("/submit")
     public ResponseEntity<StringResponse> submitComment(@ModelAttribute Comment comment) {
         StringResponse stringResponse = new StringResponse();
-        long userId = temporary.getIdUser();
-        if (userId == 0) {
-            stringResponse.setMessage("not login yet");
-            return ResponseEntity.ok().body(stringResponse);
-        }
-        comment.setUser(new User());
-        comment.getUser().setId(userId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        comment.setUser(customUserDetails.getUser());
+        comment.getUser().setId(customUserDetails.getId());
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String currentTime = formatter.format(date);
