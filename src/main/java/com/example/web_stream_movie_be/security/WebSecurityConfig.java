@@ -20,7 +20,12 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    UserService userService;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 
 //    @Bean
 //    public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -64,5 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/comment/submit").authenticated()
                 .and().formLogin().loginPage("/api/auth/requestLogin").and().antMatcher("/**");
+
     }
 }

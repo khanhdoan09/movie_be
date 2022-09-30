@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+@Slf4j
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
@@ -36,6 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 // Lấy id user từ chuỗi jwt
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
+
                 // Lấy thông tin người dùng từ id
                 UserDetails userDetails = (UserDetails) customUserDetailsService.loadUserById(userId);
                 if(userDetails != null) {
@@ -49,6 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception ex) {
             System.out.println("failed on set user authentication" + ex.getMessage());
+
         }
 
         filterChain.doFilter(request, response);

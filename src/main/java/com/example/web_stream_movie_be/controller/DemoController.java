@@ -15,4 +15,9 @@ public class DemoController {
     public String hello() {
         return "hello";
     }
+
+    @GetMapping("/login_form")
+    public String login() {
+        return "login";
+    }
 }

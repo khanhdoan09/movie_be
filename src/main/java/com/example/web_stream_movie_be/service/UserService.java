@@ -44,5 +44,6 @@ public class UserService implements UserDetailsService {
 
     public User loadUserById(Long userId) {
         return this.userRepository.findUserById(userId);
+
     }
 }

@@ -2,6 +2,8 @@ package com.example.web_stream_movie_be.controller;
 
 import com.example.web_stream_movie_be.model.User;
 import com.example.web_stream_movie_be.model.response.StringResponse;
+
+import com.example.web_stream_movie_be.security.jwt.JwtTokenProvider;
 import com.example.web_stream_movie_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +20,22 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserService userService;
+
+
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
 //    @Autowired
 //    private JwtTokenProvider tokenProvider;
+
+
+    @Autowired
+    private JwtTokenProvider tokenProvider;
 
     @GetMapping("/test")
     public String get() {return "test";
@@ -53,8 +61,11 @@ public class UserController {
         return ResponseEntity.ok().body(stringResponse);
     }
 
+
+
     @RequestMapping("/login")
     public ResponseEntity<StringResponse> loginUser(@ModelAttribute User user) {
+        System.out.println(user);
         StringResponse stringResponse = new StringResponse();
 
         try {
@@ -77,6 +88,7 @@ public class UserController {
 //        System.out.println(
 //                jwt
 //        );
+
 //        boolean isUsernameExist = userService.isUsernameExist(user.getUsername());
 //        if (!isUsernameExist) {
 //            stringResponse.setMessage("error: username is not exist");

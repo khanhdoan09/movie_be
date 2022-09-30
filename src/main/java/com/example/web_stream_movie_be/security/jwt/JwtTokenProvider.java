@@ -9,8 +9,10 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
+    // Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
     private final String JWT_SECRET = "lodaaaaaa";
 
+    //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;
 
 //    public String generateToken(CustomUserDetails userDetails) {
@@ -24,6 +26,8 @@ public class JwtTokenProvider {
 //                .compact();
 //    }
 
+
+    // Lấy thông tin user từ jwt
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)

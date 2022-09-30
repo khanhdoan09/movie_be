@@ -1,11 +1,13 @@
 package com.example.web_stream_movie_be.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +18,10 @@ public class User {
     private boolean isAdmin;
     @Column(name = "full_name")
     private String fullName;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
 }
