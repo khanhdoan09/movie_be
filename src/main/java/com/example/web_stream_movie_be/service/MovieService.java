@@ -29,6 +29,7 @@ public class MovieService {
         return this.movieRepository.findByName(movieName);
     }
 
+
     public int countMovieByName(String movieName) {
         return this.movieRepository.countByName(movieName);
     }

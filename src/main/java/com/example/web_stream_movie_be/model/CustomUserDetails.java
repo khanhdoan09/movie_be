@@ -1,4 +1,4 @@
-package com.example.web_stream_movie_be.model.security;
+package com.example.web_stream_movie_be.model;
 
 import com.example.web_stream_movie_be.model.User;
 import lombok.AllArgsConstructor;
