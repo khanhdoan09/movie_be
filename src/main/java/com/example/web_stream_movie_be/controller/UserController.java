@@ -1,8 +1,10 @@
 package com.example.web_stream_movie_be.controller;
 
 import com.example.web_stream_movie_be.model.User;
+import com.example.web_stream_movie_be.model.response.AuthenticationResponse;
 import com.example.web_stream_movie_be.model.response.StringResponse;
 
+import com.example.web_stream_movie_be.model.CustomUserDetails;
 import com.example.web_stream_movie_be.security.jwt.JwtTokenProvider;
 import com.example.web_stream_movie_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -25,14 +31,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-
     @Autowired
     private AuthenticationManager authenticationManager;
-
-//    @Autowired
-//    private JwtTokenProvider tokenProvider;
-
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -46,7 +46,7 @@ public class UserController {
         return new StringResponse("need login");
     }
 
-    @RequestMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<StringResponse> registerUser(@ModelAttribute User user) {
         StringResponse stringResponse = new StringResponse();
         boolean isExist = userService.isUsernameExist(user.getUsername());
@@ -61,14 +61,24 @@ public class UserController {
         return ResponseEntity.ok().body(stringResponse);
     }
 
-
-
-    @RequestMapping("/login")
-    public ResponseEntity<StringResponse> loginUser(@ModelAttribute User user) {
-        System.out.println(user);
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public ResponseEntity<StringResponse> customLogout(HttpServletRequest request, HttpServletResponse response) {
+        // Get the Spring Authentication object of the current request.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null){
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
         StringResponse stringResponse = new StringResponse();
+        stringResponse.setMessage("ok");
+        return ResponseEntity.ok().body(stringResponse);
+    }
 
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> loginUser(@ModelAttribute User user) {
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         try {
+            // UsernamePasswordAuthenticationToken gets {username, password} from login Request,
+            // AuthenticationManager will use it to authenticate a login account
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             user.getUsername(),
@@ -76,10 +86,12 @@ public class UserController {
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            stringResponse.setMessage("ok");
+            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
+            authenticationResponse.setMessage("ok");
+            authenticationResponse.setJwt(jwt);
         }catch (Exception e) {
             System.out.println(e.getMessage());
-            stringResponse.setMessage("error");
+            authenticationResponse.setMessage("error");
         }
 
 
@@ -105,7 +117,7 @@ public class UserController {
 //            }
 //            stringResponse.setMessage(result);
 //        }
-        return ResponseEntity.ok().body(stringResponse);
+        return ResponseEntity.ok().body(authenticationResponse);
     }
 
 

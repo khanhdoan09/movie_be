@@ -1,11 +1,12 @@
 package com.example.web_stream_movie_be.security.jwt;
 
+import com.example.web_stream_movie_be.model.User;
+import com.example.web_stream_movie_be.model.CustomUserDetails;
 import com.example.web_stream_movie_be.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -37,21 +38,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 // Lấy id user từ chuỗi jwt
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
-
                 // Lấy thông tin người dùng từ id
-                UserDetails userDetails = (UserDetails) customUserDetailsService.loadUserById(userId);
-                if(userDetails != null) {
+                User user = customUserDetailsService.loadUserById(userId);
+                CustomUserDetails customUserDetails = new CustomUserDetails(user);
+                if(customUserDetails != null) {
                     // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
                     UsernamePasswordAuthenticationToken
-                            authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                            authentication = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
         } catch (Exception ex) {
             System.out.println("failed on set user authentication" + ex.getMessage());
-
         }
 
         filterChain.doFilter(request, response);
@@ -65,4 +64,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
 }
