@@ -1,4 +1,4 @@
-package com.example.web_stream_movie_be.model.response;
+package com.example.web_stream_movie_be.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

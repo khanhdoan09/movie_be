@@ -1,7 +1,4 @@
-package com.example.web_stream_movie_be.model;
-
-import lombok.Data;
-import lombok.ToString;
+package com.example.web_stream_movie_be.entity;
 
 import javax.persistence.*;
 

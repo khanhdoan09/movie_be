@@ -1,10 +1,10 @@
 package com.example.web_stream_movie_be.controller;
 
-import com.example.web_stream_movie_be.model.User;
-import com.example.web_stream_movie_be.model.response.AuthenticationResponse;
-import com.example.web_stream_movie_be.model.response.StringResponse;
+import com.example.web_stream_movie_be.entity.User;
+import com.example.web_stream_movie_be.entity.response.AuthenticationResponse;
+import com.example.web_stream_movie_be.entity.response.StringResponse;
 
-import com.example.web_stream_movie_be.model.CustomUserDetails;
+import com.example.web_stream_movie_be.entity.CustomUserDetails;
 import com.example.web_stream_movie_be.security.jwt.JwtTokenProvider;
 import com.example.web_stream_movie_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +70,7 @@ public class UserController {
         }
         StringResponse stringResponse = new StringResponse();
         stringResponse.setMessage("ok");
+        System.out.println();
         return ResponseEntity.ok().body(stringResponse);
     }
 

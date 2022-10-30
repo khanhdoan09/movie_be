@@ -1,9 +1,8 @@
 package com.example.web_stream_movie_be.controller;
 
-import com.example.web_stream_movie_be.model.MovieDetail;
-import com.example.web_stream_movie_be.model.response.MovieDetailResponse;
+import com.example.web_stream_movie_be.entity.MovieDetail;
+import com.example.web_stream_movie_be.entity.response.MovieDetailResponse;
 import com.example.web_stream_movie_be.service.MovieDetailService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

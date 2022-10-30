@@ -1,9 +1,9 @@
 package com.example.web_stream_movie_be.controller;
 
-import com.example.web_stream_movie_be.model.Comment;
-import com.example.web_stream_movie_be.model.response.StringResponse;
-import com.example.web_stream_movie_be.model.CustomUserDetails;
-import com.example.web_stream_movie_be.model.temporary.Temporary;
+import com.example.web_stream_movie_be.entity.Comment;
+import com.example.web_stream_movie_be.entity.response.StringResponse;
+import com.example.web_stream_movie_be.entity.CustomUserDetails;
+import com.example.web_stream_movie_be.entity.temporary.Temporary;
 import com.example.web_stream_movie_be.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

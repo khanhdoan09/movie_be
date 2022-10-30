@@ -1,6 +1,6 @@
 package com.example.web_stream_movie_be.security.jwt;
 
-import com.example.web_stream_movie_be.model.CustomUserDetails;
+import com.example.web_stream_movie_be.entity.CustomUserDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

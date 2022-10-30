@@ -1,6 +1,5 @@
-package com.example.web_stream_movie_be.model;
+package com.example.web_stream_movie_be.entity;
 
-import com.example.web_stream_movie_be.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

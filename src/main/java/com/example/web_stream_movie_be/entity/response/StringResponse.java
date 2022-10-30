@@ -1,10 +1,7 @@
-package com.example.web_stream_movie_be.model.response;
+package com.example.web_stream_movie_be.entity.response;
 
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
