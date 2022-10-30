@@ -11,14 +11,17 @@ public class Category {
     private String categoryId;
     @Column(name = "name")
     private String name;
+    @Column(name = "slug")
+    private String slug;
 
     @ManyToMany(mappedBy = "categories")
     private Collection<Movie> movies;
 
-    public String getCategoryId() {
-        return this.categoryId;
-    }
     public String getName() {
         return this.name;
+    }
+
+    public String getSlug() {
+        return this.slug;
     }
 }

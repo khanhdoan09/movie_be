@@ -15,12 +15,8 @@ public class MovieDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
-    private String postUrl;
-    private String thumbUrl;
-    private String status;
     private String time;
     private String type;
-    private String quality;
     private String lang;
     private int episodeTotal;
     private String episodeCurrent;

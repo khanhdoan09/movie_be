@@ -16,6 +16,6 @@ public class CountryService {
     private CountryRepository countryRepository;
     public List<CountryDto> getAllCountries() {
         List<Country> result = countryRepository.findAll();
-        return result.stream().map(country -> new CountryDto(country.getName())).collect(Collectors.toList());
+        return result.stream().map(country -> new CountryDto(country.getName(), country.getSlug())).collect(Collectors.toList());
     }
 }
