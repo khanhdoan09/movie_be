@@ -1,6 +1,6 @@
 package com.example.web_stream_movie_be.service;
 
-import com.example.web_stream_movie_be.model.ReviewComment;
+import com.example.web_stream_movie_be.entity.ReviewComment;
 import com.example.web_stream_movie_be.repository.ReviewCommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

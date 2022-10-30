@@ -1,6 +1,6 @@
 package com.example.web_stream_movie_be.repository;
 
-import com.example.web_stream_movie_be.model.MovieDetail;
+import com.example.web_stream_movie_be.entity.MovieDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

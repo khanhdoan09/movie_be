@@ -1,7 +1,7 @@
 package com.example.web_stream_movie_be.service;
 
-import com.example.web_stream_movie_be.model.User;
-import com.example.web_stream_movie_be.model.CustomUserDetails;
+import com.example.web_stream_movie_be.entity.User;
+import com.example.web_stream_movie_be.entity.CustomUserDetails;
 import com.example.web_stream_movie_be.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.example.web_stream_movie_be.model;
+package com.example.web_stream_movie_be.entity;
 
 import lombok.Data;
 
