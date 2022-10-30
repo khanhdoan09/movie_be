@@ -14,10 +14,13 @@ public class Movie {
     private String name;
     private String originName;
     private String slug;
+    private String posterUrl;
+    private String status;
+    private String quality;
+    private int year;
     @OneToOne
     @JoinColumn(name = "country_id")
     private Country country;
-    private int year;
     @ManyToMany
     @JoinTable(name ="movie_detail_category", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Collection<Category> categories;

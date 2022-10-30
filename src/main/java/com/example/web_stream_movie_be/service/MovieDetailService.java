@@ -11,11 +11,6 @@ public class MovieDetailService {
     @Autowired
     private MovieDetailRepository movieDetailRepository;
 
-    // status, nation, quality
-    public MovieDetail getBriefMovieDetail(String movieId) {
-        return this.movieDetailRepository.getBriefMovieDetail(movieId);
-    }
-
     public MovieDetail getAllMovieDetail(String movieId) {
         return this.movieDetailRepository.getAllById(movieId);
     }

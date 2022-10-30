@@ -16,15 +16,6 @@ public class MovieDetailController {
     @Autowired
     private MovieDetailService movieDetailService;
 
-    @GetMapping("/brief/{movieId}")
-    // status, nation, quality
-    public ResponseEntity<MovieDetailResponse> getBriefMovieDetail(@PathVariable  String movieId) {
-        MovieDetailResponse movieDetailResponse = new MovieDetailResponse();
-        MovieDetail movieDetail = this.movieDetailService.getBriefMovieDetail(movieId);
-        movieDetailResponse.setMessage(movieDetail);
-        return ResponseEntity.ok().body(movieDetailResponse);
-    }
-
     @GetMapping("/getAll/{movieId}")
     public ResponseEntity<MovieDetailResponse> getAllMovieDetail(@PathVariable  String movieId) {
         MovieDetailResponse movieDetailResponse = new MovieDetailResponse();

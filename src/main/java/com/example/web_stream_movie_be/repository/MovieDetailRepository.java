@@ -9,7 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface MovieDetailRepository extends JpaRepository<MovieDetail, Long> {
 
     @Query(value = "select * from movie_detail where id= :movieId", nativeQuery = true)
-    MovieDetail getBriefMovieDetail(String movieId);
-    @Query(value = "select * from movie_detail where id= :movieId", nativeQuery = true)
     MovieDetail getAllById(String movieId);
 }

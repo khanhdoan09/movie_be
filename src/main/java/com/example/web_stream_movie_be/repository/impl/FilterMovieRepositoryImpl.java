@@ -27,13 +27,13 @@ public class FilterMovieRepositoryImpl implements FilterMovieRepository {
         List<Predicate> predicates = new ArrayList<Predicate>();
         if (country != null && country != "" && country != "all") {
             Join<Movie, Country> joinCountry = movie.join("country");
-            Predicate predicateForCountry = cb.equal(joinCountry.get("countryId"), country);
+            Predicate predicateForCountry = cb.equal(joinCountry.get("slug"), country);
             predicates.add(predicateForCountry);
         }
 
         if (category != null && category != "" && category != "all") {
             Join<Movie, Category> joinCategory = movie.join("categories");
-            Predicate predicateForCategory = cb.equal(joinCategory.get("categoryId"), category);
+            Predicate predicateForCategory = cb.equal(joinCategory.get("slug"), category);
             predicates.add(predicateForCategory);
         }
 
