@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +32,7 @@ public class MovieService {
     }
 
     public List<MovieDto> getListMoviesByName(String movieName) {
-        List<Movie> result =  this.movieRepository.findByName(movieName);
+        List<Movie> result = this.movieRepository.findByName(movieName);
         return result.stream().map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
 
     }
@@ -43,5 +44,9 @@ public class MovieService {
     public List<MovieDto> getListMoviesByFilter(String country, String year, String category) {
         List<Movie> result =  this.filterMovieRepository.getListMovieByFilter(country, year, category);
         return result.stream().map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
+    }
+
+    public boolean setNumberVisit(Movie movie) {
+        return Optional.of(movieRepository.save(movie)).isPresent();
     }
 }

@@ -18,6 +18,7 @@ public class Movie {
     private String status;
     private String quality;
     private int year;
+    private int numberVisit;
     @OneToOne
     @JoinColumn(name = "country_id")
     private Country country;

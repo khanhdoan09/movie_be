@@ -48,7 +48,7 @@ public class MovieController {
         int count = this.movieService.getNumberAllMovie();
         PaginationResponse paginationResponse = new PaginationResponse(1, count, 24);
         listResponse.setPagination(paginationResponse);
-        if (listResponse.getItems().size() > 0)
+        if (!listResponse.getItems().isEmpty())
             return listResponse;
         else
             throw new NotFoundException("not found list all movie");
@@ -63,7 +63,7 @@ public class MovieController {
     })
     public List<CountryDto> getAllCountries() {
         List<CountryDto> result = countryService.getAllCountries();
-        if (result.size() > 0)
+        if (!result.isEmpty())
             return result;
         else
             throw new NotFoundException("not found list all country");
@@ -76,7 +76,7 @@ public class MovieController {
     })
     public List<CategoryDto> getAllCategory() {
         List<CategoryDto> result = categoryService.getAllCategories();
-        if (result.size() > 0)
+        if (!result.isEmpty())
             return result;
         else
             throw new NotFoundException("not found list all category");

@@ -21,5 +21,4 @@ public class MovieDto {
     private String quality;
     private int year;
     private Country country;
-    private Collection<Category> categories;
 }

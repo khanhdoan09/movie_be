@@ -35,7 +35,7 @@ public class SearchController {
         movieListResponse.setItems(this.movieService.getListMoviesByName(movieName));
         PaginationResponse paginationResponse = new PaginationResponse(1, this.movieService.countMovieByName(movieName), 24);
         movieListResponse.setPagination(paginationResponse);
-        if (movieListResponse.getItems().size() > 0)
+        if (!movieListResponse.getItems().isEmpty())
             return movieListResponse;
         else
             throw new NotFoundException("not found list movie by specified name");
@@ -53,7 +53,7 @@ public class SearchController {
         String countryOption = req.get("country");
         MovieListResponse movieListResponse = new MovieListResponse();
         movieListResponse.setItems(this.movieService.getListMoviesByFilter(countryOption, yearOption, categoryOption));
-        if (movieListResponse.getItems().size() > 0)
+        if (!movieListResponse.getItems().isEmpty())
             return movieListResponse;
         else
             throw new NotFoundException("not found list movie by specified filter");
