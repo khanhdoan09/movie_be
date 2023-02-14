@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -94,30 +94,6 @@ public class UserController {
             System.out.println(e.getMessage());
             authenticationResponse.setMessage("error");
         }
-
-
-        // Trả về jwt cho người dùng.
-//        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-//        System.out.println(
-//                jwt
-//        );
-
-//        boolean isUsernameExist = userService.isUsernameExist(user.getUsername());
-//        if (!isUsernameExist) {
-//            stringResponse.setMessage("error: username is not exist");
-//        }
-//        else {
-//            User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
-//            String result =  "wrong password";
-//            if (doesUsernamePasswordCorrect != null) {
-//                result =  "ok";
-//                temporary.setIdUser(doesUsernamePasswordCorrect.getId());
-//            }
-//            else {
-//                result =  "wrong password";
-//            }
-//            stringResponse.setMessage(result);
-//        }
         return ResponseEntity.ok().body(authenticationResponse);
     }
 

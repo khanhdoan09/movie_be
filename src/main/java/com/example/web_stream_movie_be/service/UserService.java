@@ -23,10 +23,6 @@ public class UserService implements UserDetailsService {
         return this.userRepository.existsByUsername(username);
     }
 
-//    public User doesUsernamePasswordCorrect(String username, String password) {
-//        return this.userRepository.findByUsernameAndPassword(username, password);
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsername(username);
