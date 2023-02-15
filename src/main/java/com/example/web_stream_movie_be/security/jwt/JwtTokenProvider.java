@@ -3,6 +3,9 @@ package com.example.web_stream_movie_be.security.jwt;
 import com.example.web_stream_movie_be.entity.CustomUserDetails;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -10,11 +13,11 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-    // Đoạn JWT_SECRET này là bí mật, chỉ có phía server biết
-    private final String JWT_SECRET = "lodaaaaaa";
 
-    //Thời gian có hiệu lực của chuỗi jwt
-    private final long JWT_EXPIRATION = 604800000L;
+    @Value("${jwt.JWT_SECRET}")
+    private String JWT_SECRET;
+    @Value("${jwt.JWT_EXPIRATION}")
+    private long JWT_EXPIRATION;
 
     public String generateToken(CustomUserDetails userDetails) {
         Date now = new Date();
@@ -28,15 +31,14 @@ public class JwtTokenProvider {
     }
 
 
-    // Lấy thông tin user từ jwt
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-
         return Long.parseLong(claims.getSubject());
     }
+
     public boolean validateToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(authToken);

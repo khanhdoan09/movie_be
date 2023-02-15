@@ -5,9 +5,11 @@ import com.example.web_stream_movie_be.entity.response.AuthenticationResponse;
 import com.example.web_stream_movie_be.entity.response.StringResponse;
 
 import com.example.web_stream_movie_be.entity.CustomUserDetails;
+import com.example.web_stream_movie_be.exception.CustomException;
 import com.example.web_stream_movie_be.security.jwt.JwtTokenProvider;
 import com.example.web_stream_movie_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 
 @RestController
@@ -26,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -37,45 +40,24 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @GetMapping("/test")
-    public String get() {return "test";
-    }
-
     @RequestMapping("/requestLogin")
     public StringResponse requestLogin() {
         return new StringResponse("need login");
     }
 
     @PostMapping("/register")
-    public ResponseEntity<StringResponse> registerUser(@ModelAttribute User user) {
-        StringResponse stringResponse = new StringResponse();
+    public String registerUser(@Valid @ModelAttribute User user) throws CustomException {
         boolean isExist = userService.isUsernameExist(user.getUsername());
         if (isExist) {
-            stringResponse.setMessage("error: username is exist");
+            throw new CustomException(HttpStatus.CONFLICT, "error: username is exist");
         }
-        else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userService.insertUser(user);
-            stringResponse.setMessage("ok");
-        }
-        return ResponseEntity.ok().body(stringResponse);
-    }
-
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public ResponseEntity<StringResponse> customLogout(HttpServletRequest request, HttpServletResponse response) {
-        // Get the Spring Authentication object of the current request.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null){
-            new SecurityContextLogoutHandler().logout(request, response, authentication);
-        }
-        StringResponse stringResponse = new StringResponse();
-        stringResponse.setMessage("ok");
-        System.out.println();
-        return ResponseEntity.ok().body(stringResponse);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.insertUser(user);
+        return "ok";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> loginUser(@ModelAttribute User user) {
+    public ResponseEntity<AuthenticationResponse> loginUser(@Valid @ModelAttribute User user) {
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         try {
             // UsernamePasswordAuthenticationToken gets {username, password} from login Request,
@@ -121,5 +103,16 @@ public class UserController {
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
-
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public ResponseEntity<StringResponse> customLogout(HttpServletRequest request, HttpServletResponse response) {
+        // Get the Spring Authentication object of the current request.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null){
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
+        StringResponse stringResponse = new StringResponse();
+        stringResponse.setMessage("ok");
+        System.out.println();
+        return ResponseEntity.ok().body(stringResponse);
+    }
 }
