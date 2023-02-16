@@ -47,24 +47,23 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute User user) throws CustomException {
-        boolean isExist = userService.isUsernameExist(user.getUsername());
-        if (isExist) {
-            throw new CustomException(HttpStatus.CONFLICT, "error: username is exist");
-        }
+        existByEmail(user.getEmail());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.insertUser(user);
         return "ok";
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> loginUser(@Valid @ModelAttribute User user) {
+    public ResponseEntity<AuthenticationResponse> loginUser(@Valid @ModelAttribute User user) throws CustomException {
+        existByEmail(user.getEmail());
+//      User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         try {
             // UsernamePasswordAuthenticationToken gets {username, password} from login Request,
             // AuthenticationManager will use it to authenticate a login account
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            user.getUsername(),
+                            user.getEmail(),
                             user.getPassword()
                     )
             );
@@ -76,30 +75,6 @@ public class UserController {
             System.out.println(e.getMessage());
             authenticationResponse.setMessage("error");
         }
-
-
-        // Trả về jwt cho người dùng.
-//        String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-//        System.out.println(
-//                jwt
-//        );
-
-//        boolean isUsernameExist = userService.isUsernameExist(user.getUsername());
-//        if (!isUsernameExist) {
-//            stringResponse.setMessage("error: username is not exist");
-//        }
-//        else {
-//            User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
-//            String result =  "wrong password";
-//            if (doesUsernamePasswordCorrect != null) {
-//                result =  "ok";
-//                temporary.setIdUser(doesUsernamePasswordCorrect.getId());
-//            }
-//            else {
-//                result =  "wrong password";
-//            }
-//            stringResponse.setMessage(result);
-//        }
         return ResponseEntity.ok().body(authenticationResponse);
     }
 
@@ -114,5 +89,12 @@ public class UserController {
         stringResponse.setMessage("ok");
         System.out.println();
         return ResponseEntity.ok().body(stringResponse);
+    }
+
+    private void existByEmail(String email) throws CustomException {
+        boolean isExist = userService.isEmailExist(email);
+        if (!isExist) {
+            throw new CustomException(HttpStatus.NOT_FOUND, "email is not found");
+        }
     }
 }

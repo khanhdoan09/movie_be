@@ -13,10 +13,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "username cannot be null")
-    @NotEmpty(message = "username cannot be empty")
-    @NotBlank(message = "username canot be blank")
-    private String username;
+    @NotNull(message = "email cannot be null")
+    @NotEmpty(message = "email cannot be empty")
+    @NotBlank(message = "email cannot be blank")
+    private String email;
     @NotNull(message = "password cannot be null")
     @NotEmpty(message = "password cannot be empty")
     @NotBlank(message = "password canot be blank")
@@ -24,8 +24,8 @@ public class User {
     @Column(name = "is_admin")
     private boolean isAdmin;
 
-    public User(String username, String password) {
-        this.username = username;
+    public User(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 

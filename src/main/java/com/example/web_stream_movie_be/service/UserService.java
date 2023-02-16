@@ -19,8 +19,8 @@ public class UserService implements UserDetailsService {
         this.userRepository.save(user);
     }
 
-    public boolean isUsernameExist(String username) {
-        return this.userRepository.existsByUsername(username);
+    public boolean isEmailExist(String email) {
+        return this.userRepository.existsByEmail(email);
     }
 
 //    public User doesUsernamePasswordCorrect(String username, String password) {
@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findByUsername(username);
+        User user = this.userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
