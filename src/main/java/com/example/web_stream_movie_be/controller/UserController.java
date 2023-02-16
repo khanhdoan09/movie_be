@@ -1,5 +1,9 @@
 package com.example.web_stream_movie_be.controller;
 
+import com.example.web_stream_movie_be.controller.authentication.Entry;
+import com.example.web_stream_movie_be.controller.authentication.IAuthentication;
+import com.example.web_stream_movie_be.controller.authentication.SignInImpl;
+import com.example.web_stream_movie_be.controller.authentication.SignUpImpl;
 import com.example.web_stream_movie_be.entity.User;
 import com.example.web_stream_movie_be.entity.response.AuthenticationResponse;
 import com.example.web_stream_movie_be.entity.response.StringResponse;
@@ -9,7 +13,6 @@ import com.example.web_stream_movie_be.exception.CustomException;
 import com.example.web_stream_movie_be.security.jwt.JwtTokenProvider;
 import com.example.web_stream_movie_be.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -40,6 +43,15 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
+    @Autowired
+    private Entry entry;
+
+    @Autowired
+    private SignUpImpl signUp;
+
+    @Autowired
+    private SignInImpl signIn;
+
     @RequestMapping("/requestLogin")
     public StringResponse requestLogin() {
         return new StringResponse("need login");
@@ -47,7 +59,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute User user) throws CustomException {
-        existByEmail(user.getEmail());
+        existByEmail(user.getEmail(), signUp);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.insertUser(user);
         return "ok";
@@ -55,8 +67,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> loginUser(@Valid @ModelAttribute User user) throws CustomException {
-        existByEmail(user.getEmail());
+        existByEmail(user.getEmail(), signIn);
 //      User doesUsernamePasswordCorrect = userService.doesUsernamePasswordCorrect(user.getUsername(), user.getPassword());
+
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         try {
             // UsernamePasswordAuthenticationToken gets {username, password} from login Request,
@@ -91,10 +104,8 @@ public class UserController {
         return ResponseEntity.ok().body(stringResponse);
     }
 
-    private void existByEmail(String email) throws CustomException {
-        boolean isExist = userService.isEmailExist(email);
-        if (!isExist) {
-            throw new CustomException(HttpStatus.NOT_FOUND, "email is not found");
-        }
+    private void existByEmail(String email, IAuthentication iAuthentication) throws CustomException {
+        entry.setAuthentication(iAuthentication);
+        entry.getAuthentication().existByEmail(email);
     }
 }
