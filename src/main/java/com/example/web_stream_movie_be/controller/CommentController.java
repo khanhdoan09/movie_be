@@ -1,6 +1,8 @@
 package com.example.web_stream_movie_be.controller;
 
+import com.example.web_stream_movie_be.dto.CommentDto;
 import com.example.web_stream_movie_be.entity.Comment;
+import com.example.web_stream_movie_be.entity.User;
 import com.example.web_stream_movie_be.entity.response.StringResponse;
 import com.example.web_stream_movie_be.entity.CustomUserDetails;
 import com.example.web_stream_movie_be.entity.temporary.Temporary;
@@ -23,17 +25,14 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private Temporary temporary;
-
     @GetMapping("/get")
-    public ResponseEntity<List<Comment>> getListCommentByMovie(String movieId) {
-        return ResponseEntity.ok().body(commentService.getListCommentByMovie(movieId));
+    public List<Comment> getListCommentByMovie(String movieId) {
+        return commentService.getListCommentByMovie(movieId);
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Integer> getCountComment(String movieId) {
-        return ResponseEntity.ok().body(commentService.getCountComment(movieId));
+    public int getCountComment(String movieId) {
+        return commentService.getCountComment(movieId);
     }
 
     @RequestMapping("/submit")
@@ -41,13 +40,13 @@ public class CommentController {
         StringResponse stringResponse = new StringResponse();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        comment.setUser(customUserDetails.getUser());
-        comment.getUser().setId(customUserDetails.getId());
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         String currentTime = formatter.format(date);
+        comment.setUser(customUserDetails.getUser());
         comment.setCreateAt(currentTime);
-        this.commentService.insertComment(comment);
+        System.out.println(comment);
+        commentService.insertComment(comment);
         stringResponse.setMessage("ok");
         return ResponseEntity.ok().body(stringResponse);
     }

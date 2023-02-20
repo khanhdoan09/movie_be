@@ -29,4 +29,10 @@ public class User {
         this.password = password;
     }
 
+    public User(String email, String password, boolean isAdmin) {
+        this.email = email;
+        this.password = password;
+        this.isAdmin = isAdmin;
+    }
+
 }

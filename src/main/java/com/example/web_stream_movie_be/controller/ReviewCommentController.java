@@ -27,10 +27,8 @@ public class ReviewCommentController {
     }
 
     @GetMapping("/count/{commentId}/{reviewId}")
-    public ResponseEntity<StringResponse> getCountLikeComment(@PathVariable String commentId, @PathVariable int reviewId) {
-        StringResponse stringResponse = new StringResponse();
-        stringResponse.setMessage(Integer.toString(this.reviewCommentService.countReviewComment(commentId, reviewId)));
-        return ResponseEntity.ok().body(stringResponse);
+    public int getCountLikeComment(@PathVariable String commentId, @PathVariable int reviewId) {
+        return reviewCommentService.countReviewComment(commentId, reviewId);
     }
 
     @GetMapping("/check/{commentId}/{review}")
